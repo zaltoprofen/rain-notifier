@@ -1,0 +1,17 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET         /tefnut                                  controllers.Application.index
+
+# Map static resources from the /public folder to the /assets URL path
+GET         /tefnut/assets/*file              controllers.Assets.at(path="/public", file)
+
+
+GET         /tefnut/authorize                 @controllers.AuthorizationController.authorize
+GET         /tefnut/authorize_complete        @controllers.AuthorizationController.callback(code: Option[String], error: Option[String])
+
+GET         /tefnut/settings                  @controllers.UserContentController.index
+POST        /tefnut/settings/register         @controllers.UserContentController.register
+POST        /tefnut/settings/delete           @controllers.UserContentController.delete

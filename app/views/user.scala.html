@@ -1,0 +1,38 @@
+@(venuesForm: Form[List[Long]], unregistered: List[models.value.Venue], registered: List[models.value.Venue])(implicit request: Request[AnyContent])
+
+<!DOCTYPE html>
+<html>
+    <head lang="en">
+        <meta charset="UTF-8">
+        <title>観測地点設定</title>
+    </head>
+    <body>
+        @for(message <- request.flash.get("error")) {
+            <p class="error-message">@message</p>
+        }
+        @for(message <- request.flash.get("success")) {
+            <p class="notification">@message</p>
+        }
+    <h2>未登録観測地点</h2>
+        @helper.form(action = routes.UserContentController.register) {
+            @helper.select(
+                venuesForm("venue_id"),
+                unregistered.map {v => (v.venueId.toString, v.name)},
+                'multiple -> "multiple",
+                '_label -> ""
+            )
+            <input type="submit" value="Register">
+        }
+
+    <h2>登録済み観測地点</h2>
+        @helper.form(action = routes.UserContentController.delete) {
+            @helper.select(
+                venuesForm("venue_id"),
+                registered.map {v => (v.venueId.toString, v.name)},
+                'multiple -> "multiple",
+                '_label -> ""
+            )
+            <input type="submit" value="Delete">
+            }
+    </body>
+</html>
